@@ -47,14 +47,9 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-spring-service-connector</artifactId>
-			<version>${spring-cloud.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-cloudfoundry-connector</artifactId>
-			<version>${spring-cloud.version}</version>
+			<groupId>io.pivotal.cfenv</groupId>
+			<artifactId>java-cfenv-boot</artifactId>
+			<version>${java-cfenv.version}</version>
 		</dependency>
 
 		<dependency>
@@ -85,7 +80,7 @@
 		<start-class>helloworld.Application</start-class>
 		<java.version>1.8</java.version>
 
-		<spring-cloud.version>2.0.9.RELEASE</spring-cloud.version>
+		<java-cfenv.version>2.5.0</java-cfenv.version>
 	</properties>
 
 	<build>
