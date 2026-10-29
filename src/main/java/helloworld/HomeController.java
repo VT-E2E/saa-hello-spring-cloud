@@ -9,9 +9,11 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import io.pivotal.cfenv.core.CfApplication;
+import io.pivotal.cfenv.core.CfEnv;
+
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -28,10 +30,31 @@ public class HomeController {
     @Autowired(required = false) MongoDbFactory mongoDbFactory;
     @Autowired(required = false) ConnectionFactory rabbitConnectionFactory;
 
-    @Autowired(required = false) ApplicationInstanceInfo instanceInfo;
+    private final CfEnv cfEnv = new CfEnv();
+
+    public static class InstanceInfo {
+        private final String appId;
+        private final String instanceId;
+        private final Map<String, Object> properties;
+
+        InstanceInfo(String appId, String instanceId, Map<String, Object> properties) {
+            this.appId = appId;
+            this.instanceId = instanceId;
+            this.properties = properties;
+        }
+
+        public String getAppId() { return appId; }
+        public String getInstanceId() { return instanceId; }
+        public Map<String, Object> getProperties() { return properties; }
+    }
 
     @RequestMapping("/")
     public String home(Model model) {
+        InstanceInfo instanceInfo = null;
+        if (cfEnv.isInCf()) {
+            CfApplication app = cfEnv.getApp();
+            instanceInfo = new InstanceInfo(app.getApplicationId(), app.getInstanceId(), app.getMap());
+        }
         model.addAttribute("instanceInfo", instanceInfo);
 
         if (instanceInfo != null) {
