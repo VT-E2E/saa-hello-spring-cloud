@@ -71,9 +71,9 @@ public class HomeController {
             return "<none>";
         } else {
             try {
-                return mongoDbFactory.getDb().getMongo().getAddress().toString();
+                return mongoDbFactory.getMongoDatabase().getName();
             } catch (Exception ex) {
-                return "<invalid address> " + mongoDbFactory.getDb().getMongo().toString();
+                return "<invalid database> " + mongoDbFactory.getClass();
             }
         }
     }
