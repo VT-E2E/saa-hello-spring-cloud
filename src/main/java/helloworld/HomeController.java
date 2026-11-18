@@ -105,11 +105,9 @@ public class HomeController {
         if (redisConnectionFactory == null) {
             return "<none>";
         } else {
-            if (redisConnectionFactory instanceof JedisConnectionFactory) {
-                JedisConnectionFactory jcf = (JedisConnectionFactory) redisConnectionFactory;
+            if (redisConnectionFactory instanceof JedisConnectionFactory jcf) {
                 return jcf.getHostName().toString() + ":" + jcf.getPort();
-            } else if (redisConnectionFactory instanceof LettuceConnectionFactory) {
-                LettuceConnectionFactory lcf = (LettuceConnectionFactory) redisConnectionFactory;
+            } else if (redisConnectionFactory instanceof LettuceConnectionFactory lcf) {
                 return lcf.getHostName().toString() + ":" + lcf.getPort();
             }
             return "<unknown> " + redisConnectionFactory.getClass();
